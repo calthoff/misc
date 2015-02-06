@@ -21,8 +21,9 @@ class ChatMessage():
         link_flag = False
         link = ""
         position = 0
+        last_index = len(self.string) - 1
         for c in self.string:
-            last_position = position == len(self.string) - 1
+            last_position = position == last_index
             # mentions
             mention_sc = re.match('[\w]', c)
             if mention_flag and mention_sc:

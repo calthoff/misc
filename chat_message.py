@@ -4,20 +4,6 @@ import urllib2
 import json
 
 
-class Stack:
-    def __init__(self):
-        self.items = []
-
-    def push(self, item):
-        self.items.append(item)
-
-    def pop(self):
-        return self.items.pop()
-
-    def size(self):
-        return len(self.items)
-
-
 class ChatMessage():
     def __init__(self, string):
         self.string = string
@@ -30,7 +16,7 @@ class ChatMessage():
         http_index_list = [m.start() for m in re.finditer('http://', self.string)]
         https_index_list = [m.start() for m in re.finditer('https://', self.string)]
         temp_lists = [[], [], []]
-        emoticon_stack = Stack()
+        emoticon_stack = []
         mention_flag = False
         link_flag = False
         position = 0
@@ -58,14 +44,14 @@ class ChatMessage():
                 link_flag = False
                 temp_lists[1] = []
             # emoticons
-            if c == ')' and emoticon_stack.size():
+            if c == ')' and len(emoticon_stack):
                 emoticon_stack.pop()
                 self.emoticons_master_list.append(''.join(temp_lists[2]))
                 temp_lists[2]
-            if emoticon_stack.size():
+            if len(emoticon_stack):
                 temp_lists[2].append(c)
             if c == '(':
-                emoticon_stack.push('(')
+                emoticon_stack.append('(')
             position +=1
 
     def get_link_titles(self):

@@ -29,9 +29,7 @@ class ChatMessage():
     def get_string_data(self):
         http_index_list = [m.start() for m in re.finditer('http://', self.string)]
         https_index_list = [m.start() for m in re.finditer('https://', self.string)]
-        temp_emoji_list = []
-        temp_mention_list = []
-        temp_link_list = []
+        temp_lists = [[], [], []]
         emoticon_stack = Stack()
         mention_flag = False
         link_flag = False
@@ -42,11 +40,11 @@ class ChatMessage():
             # mentions
             mention_sc = re.match('[\w]', c)
             if mention_flag and mention_sc:
-                temp_mention_list.append(c)
+                temp_lists[0].append(c)
             if mention_flag and not mention_sc or mention_flag and last_position:
-                self.mentions_master_list.append(''.join(temp_mention_list))
+                self.mentions_master_list.append(''.join(temp_lists[0]))
                 mention_flag = False
-                temp_mention_list = []
+                temp_lists[0] = []
             if c == '@':
                 mention_flag = True
              # links
@@ -54,18 +52,18 @@ class ChatMessage():
             if position in http_index_list or position in https_index_list:
                 link_flag = True
             if link_flag and link_sc:
-                temp_link_list.append(c)
+                temp_lists[1].append(c)
             if link_flag and not link_sc or link_flag and last_position:
-                self.links_master_list.append(''.join(temp_link_list))
+                self.links_master_list.append(''.join( temp_lists[1]))
                 link_flag = False
-                temp_link_list = []
+                temp_lists[1] = []
             # emoticons
             if c == ')' and emoticon_stack.size():
                 emoticon_stack.pop()
-                self.emoticons_master_list.append(''.join(temp_emoji_list))
-                temp_emoji_list = []
+                self.emoticons_master_list.append(''.join(temp_lists[2]))
+                temp_lists[2]
             if emoticon_stack.size():
-                temp_emoji_list.append(c)
+                temp_lists[2].append(c)
             if c == '(':
                 emoticon_stack.push('(')
             position +=1

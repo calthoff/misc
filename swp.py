@@ -1,4 +1,5 @@
 
+
 def wrapper(string):
     def f(string):
         lower_case = [i for i in range(97, 107)]
@@ -8,7 +9,7 @@ def wrapper(string):
         return False
     flag = True
     lower_case = [i for i in range(97, 107)]
-    upper_case = [i for i in range(77, 82)]
+    upper_case = [77, 75, 80, 81]
     if len(string) < 1 and flag:
         return True
     if len(string) < 1:
@@ -36,5 +37,6 @@ def wrapper(string):
             return False
     return False
 
-
 print wrapper('aaaaZaMbbZ')
+
+

@@ -19,12 +19,9 @@ class ProtocolOne(object):
         return False
 
     def check_message(self):
-        flag = True
         length = len(self.string_copy)
         if length < 1:
-            if flag:
-                return True
-            return False
+            return True
         character = self.string_copy[0]
         # handle z
         if character == 'Z':
@@ -32,8 +29,8 @@ class ProtocolOne(object):
                 z_error()
                 return False
             self.string_copy = self.string_copy[1:]
-            flag = self.check_lowercase()
-            if flag:
+            z_test = self.check_lowercase()
+            if z_test:
                 return self.check_message()
             return False
         # handle uppercase
@@ -41,13 +38,12 @@ class ProtocolOne(object):
             if length < 3:
                 uppercase_error()
                 return False
-            else:
-                self.string_copy = self.string_copy[1:]
-                return self.check_message()
+            self.string_copy = self.string_copy[1:]
+            return self.check_message()
         # handle lowercase
         if character in self.lower_case:
-            is_valid = self.check_lowercase()
-            if is_valid:
+            lower_test = self.check_lowercase()
+            if lower_test:
                 self.string_copy = self.string_copy[1:]
                 return self.check_message()
             return False
@@ -68,5 +64,5 @@ class ProtocolOne(object):
         self.print_result(valid)
 
 if __name__ == '__main__':
-    p = ProtocolOne('MMaaZaMaa')
+    p = ProtocolOne('ZaZaaMaaKaa')
     p.check_protocol()

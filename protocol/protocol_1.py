@@ -1,5 +1,3 @@
-from error_messages import uppercase_error, z_error, invalid_character_error
-
 class TreeNode:
     def __init__(self, data=""):
         self.data = data
@@ -29,7 +27,7 @@ class TreeNode:
         return count
         
    
-class ProtocolOne(object):
+class Protocol(object):
     """
     :param: string with lowercase letters a-j and uppercase letters Z M K P Q
     :return: the message and if the message is valid or invalid
@@ -39,16 +37,13 @@ class ProtocolOne(object):
         self.lower_case = [chr(i) for i in range(97, 107)]
         self.upper_case = ['M', 'K', 'P', 'Q']
         self.valid_characters = self.lower_case + self.upper_case + ['Z']
-        self.parse_tree = TreeNode()
 
-    def check_lowercase(self, string):
-        return string[0] in self.lower_case
-           
     def check_message(self, string):
         length = len(string)
         character = string[0]
         # handle rule 1
         if character not in self.valid_characters:
+            print 'invalid character'
             return None
         # handle rule 2
         if length == 1:
@@ -61,6 +56,9 @@ class ProtocolOne(object):
                 lower_flag = None
         if lower_flag:
             return TreeNode(string)
+        # ZaZa
+        if character in self.lower_case:
+            return self.check_message(string[1:])
         # handle rule 3
         if character == 'Z':
             left_child = self.check_message(string[1:])
@@ -70,23 +68,26 @@ class ProtocolOne(object):
                 node.left_child = left_child
                 return node
         # handle rule 4
-        if character not in self.upper_case:
-            return None
-        ros = string[1:]
-        ###print ros, range(1, len(ros))
-        for i in range(1, len(ros)):
-            x = ros[0:i]
-            y = ros[i:]
-            if not x or not y:
-                return None
-            left_child = self.check_message(x)
-            right_child = self.check_message(y)
-            if left_child and right_child:
-                node = TreeNode(string)
-                node.prefix = character
-                node.left_child = left_child
-                node.right_child = right_child
-                return node
+        if character in self.upper_case:
+            # MMaZa
+            if len(string) > 2:
+                if string[1] in self.upper_case:
+                    return self.check_message(string[1:])
+            ros = string[1:]
+            for i in range(1, len(ros)):
+                x = ros[0:i]
+                y = ros[i:]
+                print x, ',', y
+                if not x or not y:
+                    return None
+                left_child = self.check_message(x)
+                right_child = self.check_message(y)
+                if left_child and right_child:
+                    node = TreeNode(string)
+                    node.prefix = character
+                    node.left_child = left_child
+                    node.right_child = right_child
+                    return node
         return None
     
     def print_result(self, valid):
@@ -96,17 +97,11 @@ class ProtocolOne(object):
             print valid.count_nodes()
         else:
             print self.string, 'INVALID'
-        
-
-    def is_valid(self):
-        if len(self.string) < 1:
-            return False
-        return self.check_message(self.string)
 
     def check_protocol(self):
-        valid = self.is_valid()
+        valid = self.check_message(self.string)
         self.print_result(valid)
 
 if __name__ == '__main__':
-    p = ProtocolOne('aa')
+    p = Protocol('MMMMMMaZa')
     p.check_protocol()

@@ -1,5 +1,3 @@
-from error_messages import uppercase_error, z_error, invalid_character_error
-
 class TreeNode:
     def __init__(self, data=""):
         self.data = data
@@ -14,6 +12,7 @@ class TreeNode:
             self.left_child.print_tree(indentation)
             if self.right_child:
                 self.right_child.print_tree(indentation)
+        return ""
         
    
 class ProtocolOne(object):
@@ -21,7 +20,6 @@ class ProtocolOne(object):
     :param: string with lowercase letters a-j and uppercase letters Z M K P Q
     :return: the message and if the message is valid or invalid
     """
-    
     lower_case = [chr(i) for i in range(97, 107)]
     upper_case = ['M', 'K', 'P', 'Q']
     valid_characters = lower_case + upper_case + ['Z']
@@ -31,10 +29,12 @@ class ProtocolOne(object):
         character = string[0]
         # handle rule 1
         if character not in self.valid_characters:
+            print 'character must be a-j, Z M K P or Q'
             return None
         # handle rule 2
         if length == 1:
             if character not in self.lower_case:
+                print 'last character of message must be lowercase'
                 return None
             return TreeNode(character)
         lower_flag = True
@@ -84,7 +84,7 @@ class ProtocolOne(object):
         string_list = string.strip().split()
         for s in string_list:
             node = self.is_valid(s)
-            self.print_result(s,node)
+            self.print_result(s, node)
 
     def count_valid(self, string, count=0):
         for i in range(1,len(string)+1):
@@ -94,11 +94,18 @@ class ProtocolOne(object):
                 return self.count_valid(right,count+1)
         return count      
 
+
 def main_test(string):
     p = ProtocolOne()
     p.check_protocol(string)
 
+
 def bonus1_(string):
+    """
+    :param: string with the number of messages followed by lowercase letters a-j
+    and uppercase letters Z M K P Q
+    :return: the message and if the message is valid or invalid
+    """
     number_list = [chr(i) for i in range(48, 58)]
     number = ""
     for c in string:
@@ -108,15 +115,11 @@ def bonus1_(string):
             break
     p = ProtocolOne()
     string = string[len(number):]
-    print string 
-    count = p.count_valid(string)
-    print number, count 
-    if int(number) == count:
-        print string, 'valid', count
+    if int(number) ==  p.count_valid(string):
+        print string, 'valid'
     else:
-        print string, 'invalid', count
-        
+        print string, 'invalid'
+
 if __name__ == '__main__':
     main_test('Za Mbb')
-    bonus1_('10aaaaaaaaaa')
-    #print string, p.count_valid(string)
+    #bonus1_('10aaaaaaaaaa')

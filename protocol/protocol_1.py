@@ -38,6 +38,9 @@ class Protocol(object):
         self.upper_case = ['M', 'K', 'P', 'Q']
         self.valid_characters = self.lower_case + self.upper_case + ['Z']
 
+        self.double_m = 0
+        self.single_m = 0
+
     def check_message(self, string):
         length = len(string)
         character = string[0]
@@ -72,7 +75,11 @@ class Protocol(object):
             # MMaZa
             if len(string) > 2:
                 if string[1] in self.upper_case:
+                    self.double_m += 1
                     return self.check_message(string[1:])
+                #count
+                if string[1] == 'Z':
+                    self.double_m +=1
             ros = string[1:]
             for i in range(1, len(ros)):
                 x = ros[0:i]

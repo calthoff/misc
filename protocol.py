@@ -12,7 +12,6 @@ class TreeNode:
             self.left_child.print_tree(indentation)
             if self.right_child:
                 self.right_child.print_tree(indentation)
-        return ""
         
    
 class ProtocolOne(object):
@@ -71,7 +70,7 @@ class ProtocolOne(object):
     def print_result(self, string, node):
         if node:
             print string, 'VALID'
-            print node.print_tree()
+            node.print_tree()
         else:
             print string, 'INVALID'
         

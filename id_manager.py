@@ -13,7 +13,7 @@ pop on the stack which is O(1), as well as set on the dictionary which is also O
 '''
 
 
-class IDManger():
+class IDManager():
     def __init__(self, n):
         """
         :param pool: integer to create pool from 1 to n
@@ -48,7 +48,7 @@ class IDManger():
 
 class TestIDManager(unittest.TestCase):
     def setUp(self):
-        self.manager = IDManger(100)
+        self.manager = IDManager(100)
 
     def test_free_id(self):
         """
@@ -75,7 +75,7 @@ class TestIDManager(unittest.TestCase):
         """
         tests that an exception is thrown if IDManager() is created with a non integer value
         """
-        self.assertRaises(Exception, lambda: IDManger('string'))
+        self.assertRaises(Exception, lambda: IDManager('string'))
 
     def test_free_free_id(self):
         """

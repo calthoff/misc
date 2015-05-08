@@ -3,13 +3,13 @@ import unittest
 __author__ = 'Cory Althoff'
 '''
 I used two data structures in my ID Manager. My goal was to make both free_id and get_id O(1). I used a dictionary
-to keep track of which ids are free, and a list as a stack to give the free ids away. The problem I addressed with the
-dictionary was that if I just used a stack to manage the ids, the user of the API could call free_id multiple times on
-an id that was already free, and fill the stack up with ids that were not really free. So I decided to use a dictionary
-to keep track of whether an id was free or not. That way I can only add an id to the stack if the id is marked False and
-raise an exception if a user tries to call free_id on an id that is already free. The result is that free_id uses append
-on a list which is O(1), set on a dictionary which is also O(1) and in dictionary which is also O(1). In get_id, I call
-pop on the stack which is O(1), as well as set on the dictionary which is also O(1).
+to keep track of which ids are free, and a list as a stack to give the free ids away. The problem I addressed with 
+the dictionary was that if I just used a stack to manage the ids, the user of the API could call free_id multiple 
+times on an id that was already free, and fill the stack up with ids that were not really free. So I decided to use a
+dictionary to keep track of whether an id was free or not. That way I can only add an id to the stack if the id is 
+marked False and raise an exception if a user tries to call free_id on an id that is already free. The result is that
+free_id uses append on a list which is O(1), set on a dictionary which is also O(1) and in dictionary which is also 
+O(1). In get_id, I call pop on the stack which is O(1), as well as set on the dictionary which is also O(1).
 '''
 
 

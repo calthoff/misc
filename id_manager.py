@@ -1,6 +1,6 @@
 import unittest
 
-__author__ = 'Cory Althoff'
+
 '''
 I used two data structures in my ID Manager. My goal was to make both free_id and get_id O(1). I used a dictionary
 to keep track of which ids are free, and a list as a stack to give the free ids away. The problem I addressed with 
